@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Ibadah Raya 1",
+    "day": "Sunday",
+    "time": "08:00"
+  },
+  {
+    "name": "Ibadah Raya 2",
+    "day": "Sunday",
+    "time": "16:00"
+  },
+  {
+    "name": "Ibadah Doa Malam",
+    "day": "Friday",
+    "time": "19:00"
+  },
+  {
+    "name": "Ibadah Doa Pagi",
+    "day": ["Monday", "Wednesday", "Friday"],
+    "time": "05:00"
+  },
+  {
+    "name": "PraiseUp Youth",
+    "day": "Saturday",
+    "time": "18:00"
+  }
+]
