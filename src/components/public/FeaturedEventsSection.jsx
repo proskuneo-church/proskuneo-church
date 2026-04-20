@@ -1,22 +1,51 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchEvents } from "../../lib/cmsApi";
-import { formatDateTimeDisplay } from "../../utils/formatters";
 import SectionHeading from "../common/SectionHeading";
 import LoadingBlock from "../common/LoadingBlock";
 import MessageBlock from "../common/MessageBlock";
+
+function getFeaturedMeta(dateValue, timeValue) {
+  const fallback = {
+    dayTime: timeValue ? `${timeValue.slice(0, 5)} WIB` : "-",
+    dateText: "-",
+  };
+
+  if (!dateValue) return fallback;
+
+  const parsed = new Date(dateValue);
+  if (Number.isNaN(parsed.getTime())) return fallback;
+
+  const day = new Intl.DateTimeFormat("id-ID", { weekday: "long" }).format(parsed);
+  const fullDate = new Intl.DateTimeFormat("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(parsed);
+  const time = timeValue?.slice(0, 5) || "00:00";
+
+  return {
+    dayTime: `${day}, ${time} WIB`,
+    dateText: fullDate,
+  };
+}
 
 export default function FeaturedEventsSection() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [index, setIndex] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedAlt, setSelectedAlt] = useState("Featured event poster");
 
   useEffect(() => {
     const load = async () => {
       try {
         setLoading(true);
-        const rows = await fetchEvents({ type: "featured" });
-        setEvents(rows);
+        const rows = await fetchEvents({
+          type: "featured",
+          orderBy: "created_at",
+          ascending: false,
+        });
+        setEvents(rows || []);
       } catch (err) {
         setError(err.message || "Failed to load featured events");
       } finally {
@@ -27,77 +56,108 @@ export default function FeaturedEventsSection() {
     load();
   }, []);
 
+  const visibleEvents = useMemo(
+    () => events.filter((event) => Boolean(event?.image_url)),
+    [events],
+  );
+
   useEffect(() => {
-    if (events.length <= 3) return undefined;
+    if (!selectedImage) return undefined;
 
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % events.length);
-    }, 4500);
+    const { overflow } = document.body.style;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
 
-    return () => clearInterval(interval);
-  }, [events.length]);
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = overflow;
+    };
+  }, [selectedImage]);
 
   return (
     <section className="section section-alt" id="featured-events">
       <div className="site-container">
         <SectionHeading
           title="Featured Events"
-          subtitle="Acara besar gereja seperti Easter, Christmas, conference, seminar, dan KKR."
+          subtitle="Highlight acara utama gereja dengan tampilan poster yang clean, modern, dan elegan."
         />
 
         {loading ? <LoadingBlock label="Loading featured events..." /> : null}
         {error ? <MessageBlock type="error" title="Featured events unavailable" message={error} /> : null}
 
-        {!loading && !error && events.length === 0 ? (
+        {!loading && !error && visibleEvents.length === 0 ? (
           <MessageBlock message="Belum ada featured events. Tambahkan dari admin panel." />
         ) : null}
 
-        {!loading && !error && events.length > 0 && events.length <= 3 ? (
-          <div className="featured-premium-grid">
-            {events.map((event) => (
-              <article key={event.id} className="featured-premium-card">
-                {event.image_url ? <img src={event.image_url} alt={event.title} loading="lazy" /> : null}
-                <div className="featured-premium-overlay">
-                  <h3>{event.title}</h3>
-                  <p>{formatDateTimeDisplay(event.date, event.time)}</p>
-                  <p>{event.location || "Proskuneo Church Surabaya"}</p>
-                  {event.speaker ? <p>Speaker: {event.speaker}</p> : null}
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : null}
+        {!loading && !error && visibleEvents.length > 0 ? (
+          <div className="featured-modern-grid">
+            {visibleEvents.map((event) => {
+              const meta = getFeaturedMeta(event.date, event.time);
 
-        {!loading && !error && events.length > 3 ? (
-          <div className="featured-premium-carousel">
-            <div className="carousel-track" style={{ transform: `translateX(-${index * 100}%)` }}>
-              {events.map((event) => (
-                <article key={event.id} className="featured-premium-slide">
-                  {event.image_url ? <img src={event.image_url} alt={event.title} loading="lazy" /> : null}
-                  <div className="featured-premium-overlay">
+              return (
+                <article key={event.id} className="featured-modern-card reveal-on-scroll">
+                  <div
+                    className="featured-modern-media"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => {
+                      setSelectedImage(event.image_url);
+                      setSelectedAlt(event.title || "Featured event poster");
+                    }}
+                    onKeyDown={(keyboardEvent) => {
+                      if (keyboardEvent.key === "Enter" || keyboardEvent.key === " ") {
+                        keyboardEvent.preventDefault();
+                        setSelectedImage(event.image_url);
+                        setSelectedAlt(event.title || "Featured event poster");
+                      }
+                    }}
+                  >
+                    <img src={event.image_url} alt={event.title || "Featured event poster"} loading="lazy" />
+                    {event.badge && event.badge.trim() ? (
+                      <span className="featured-modern-badge">{event.badge.trim()}</span>
+                    ) : null}
+                  </div>
+                  <div className="featured-modern-content">
                     <h3>{event.title}</h3>
-                    <p>{formatDateTimeDisplay(event.date, event.time)}</p>
-                    <p>{event.location || "Proskuneo Church Surabaya"}</p>
-                    {event.speaker ? <p>Speaker: {event.speaker}</p> : null}
+                    <div className="featured-modern-meta">
+                      <p>{meta.dayTime}</p>
+                      <p>{meta.dateText}</p>
+                    </div>
                   </div>
                 </article>
-              ))}
-            </div>
-
-            <div className="carousel-dots">
-              {events.map((event, dotIndex) => (
-                <button
-                  key={event.id}
-                  type="button"
-                  className={dotIndex === index ? "active" : ""}
-                  onClick={() => setIndex(dotIndex)}
-                  aria-label={`Go to featured event ${dotIndex + 1}`}
-                />
-              ))}
-            </div>
+              );
+            })}
           </div>
         ) : null}
       </div>
+
+      {selectedImage ? (
+        <div className="featured-poster-modal" onClick={() => setSelectedImage(null)}>
+          <button
+            type="button"
+            className="featured-poster-modal-close"
+            aria-label="Close poster preview"
+            onClick={(event) => {
+              event.stopPropagation();
+              setSelectedImage(null);
+            }}
+          >
+            X
+          </button>
+          <img
+            src={selectedImage}
+            alt={selectedAlt}
+            className="featured-poster-modal-image"
+            onClick={(event) => event.stopPropagation()}
+          />
+        </div>
+      ) : null}
     </section>
   );
 }
