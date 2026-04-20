@@ -87,7 +87,7 @@ export async function fetchEvents(options = {}) {
 
   let query = supabase
     .from("events")
-    .select("*")
+    .select("id, title, date, time, location, speaker, image_url, type, badge, created_at")
     .order(options.orderBy || "date", { ascending: options.ascending ?? true });
 
   if (options.type) {
@@ -105,9 +105,13 @@ export async function fetchEvents(options = {}) {
 
 export async function upsertEvent(payload) {
   const supabase = requireSupabase();
+  const normalizedPayload = {
+    ...payload,
+    badge: payload?.badge?.trim() ? payload.badge.trim() : null,
+  };
   const { data, error } = await supabase
     .from("events")
-    .upsert(payload, { onConflict: "id" })
+    .upsert(normalizedPayload, { onConflict: "id" })
     .select("*")
     .single();
 

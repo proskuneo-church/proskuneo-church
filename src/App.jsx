@@ -5,6 +5,7 @@ import RequireRole from "./components/auth/RequireRole";
 import PublicLayout from "./components/layout/PublicLayout";
 import AdminLayout from "./components/layout/AdminLayout";
 import HomePage from "./pages/public/HomePage";
+import UpcomingPostersPage from "./pages/public/UpcomingPostersPage";
 import DevotionalDetailPage from "./pages/public/DevotionalDetailPage";
 import NotFoundPage from "./pages/public/NotFoundPage";
 import AdminLoginPage from "./pages/admin/AdminLoginPage";
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route element={<PublicLayout />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/upcoming-posters" element={<UpcomingPostersPage />} />
             <Route path="/devotional/bulanan/:slug" element={<DevotionalDetailPage type="monthly" />} />
             <Route path="/devotional/harian/:slug" element={<DevotionalDetailPage type="daily" />} />
           </Route>

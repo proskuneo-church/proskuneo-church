@@ -14,6 +14,7 @@ const initialForm = {
   id: "",
   type: "featured",
   title: "",
+  badge: "",
   date: "",
   time: "",
   location: "",
@@ -115,6 +116,7 @@ export default function AdminEventsPage() {
         id: form.id || undefined,
         type: form.type,
         title: isFeatured ? form.title : form.title || `Upcoming Poster ${fallbackDate}`,
+        badge: form.badge.trim() || null,
         date: isFeatured ? parsedFeaturedDate : parsedUpcomingDate || fallbackDate,
         time: isFeatured ? normalizedFeaturedTime : normalizedUpcomingTime || fallbackTime,
         location: isFeatured ? form.location || null : null,
@@ -136,6 +138,7 @@ export default function AdminEventsPage() {
       id: row.id,
       type: row.type || "featured",
       title: row.title || "",
+      badge: row.badge || "",
       date: formatDateInput(row.date),
       time: row.time ? row.time.slice(0, 5) : "",
       location: row.location || "",
@@ -173,6 +176,7 @@ export default function AdminEventsPage() {
             {featuredRows.map((item) => (
               <article key={item.id}>
                 <h4>{item.title || "Untitled Event"}</h4>
+                {item.badge ? <p>Badge: {item.badge}</p> : null}
                 {item.date && item.time ? <p>{formatDateTimeDisplay(item.date, item.time)}</p> : null}
                 {item.location ? <p>{item.location}</p> : null}
                 {item.speaker ? <p>Speaker: {item.speaker}</p> : null}
@@ -194,6 +198,7 @@ export default function AdminEventsPage() {
             {upcomingRows.map((item) => (
               <article key={item.id}>
                 <h4>{item.title || "Untitled Event"}</h4>
+                {item.badge ? <p>Badge: {item.badge}</p> : null}
                 <p>Poster only</p>
                 <div className="row-actions">
                   <button type="button" onClick={() => handleEdit(item)}>
@@ -228,6 +233,15 @@ export default function AdminEventsPage() {
               onChange={(event) => setForm((prev) => ({ ...prev, title: event.target.value }))}
               placeholder={form.type === "upcoming" ? "Optional (internal title)" : "Event title"}
               required={form.type === "featured"}
+            />
+          </label>
+
+          <label>
+            Badge (Optional)
+            <input
+              value={form.badge}
+              onChange={(event) => setForm((prev) => ({ ...prev, badge: event.target.value }))}
+              placeholder="Sunday Service / Youth / Special Event"
             />
           </label>
 

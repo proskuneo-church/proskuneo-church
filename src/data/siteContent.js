@@ -20,6 +20,8 @@
     { label: "Home", href: "#home" },
     { label: "Schedule", href: "#schedule" },
     { label: "Community", href: "#community" },
+    { label: "Pelayanan Jemaat", href: "#services" },
+    { label: "Arsip Khotbah", href: "#sermons" },
     { label: "Giving", href: "#giving" },
     { label: "Contact", href: "#contact" },
   ],
@@ -35,7 +37,7 @@ export const churchProfile = {
     //role: "Gembala Sidang JKI Proskuneo",
     image: "/images/gembala.jpeg",
     message:
-      "Pastor Philip Mantofa dilahirkan di Surabaya pada tanggal 27 September, 1974. Dari kota kelahirannya, ia menempuh sekolah di Taipei, Singapore, dan akhirnya bertobat saat SMA di Vancouver, Canada. Dua tahun setelah lulus sarjana sekolah Alkitab, saat kerusuhan terjadi di Indonesia pada bulan Mei 1998, ia memutuskan untuk pulang ke tanah airnya demi memberitakan Injil. \n\n Saat ini, ia menjabat sebagai gembala senior organisasi dan jaringan gereja ini. Visinya adalah untuk mendirikan 1.000 gereja lokal yang kuat dengan 1 juta murid Kristus. Kerinduan hatinya yang menyala adalah untuk melihat bangsa-bangsa mengalami kasih Yesus Kristus.",
+      "Pdt. Susy Herawati adalah seorang pendeta Kristen yang melayani sebagai gembala jemaat di JKI Proskuneo Surabaya. Dalam pelayanannya, beliau dikenal aktif membina jemaat melalui khotbah, doa, dan berbagai kegiatan rohani yang berfokus pada pertumbuhan iman serta kehidupan spiritual. ENTER ENTER Sebagai pemimpin gereja, Pdt. Susy Herawati turut berperan dalam pengembangan pelayanan dan komunitas gereja di Surabaya, termasuk dalam peresmian dan pengelolaan fasilitas ibadah yang mendukung aktivitas jemaat. Pelayanannya juga menjangkau media digital, di mana ia membagikan firman Tuhan melalui siaran ibadah dan konten rohani. ENTER ENTER Dengan dedikasi dalam pelayanan, Pdt. Susy Herawati terus berkomitmen untuk membangun jemaat yang bertumbuh secara rohani serta berdampak positif bagi masyarakat sekitar.",
   },
 };
 

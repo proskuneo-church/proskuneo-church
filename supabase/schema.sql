@@ -48,6 +48,7 @@ create table if not exists public.events (
   speaker text,
   image_url text,
   type text not null default 'upcoming',
+  badge text,
   created_at timestamptz not null default now()
 );
 
@@ -70,6 +71,7 @@ create table if not exists public.media (
 -- Migration helpers for existing events table variants
 alter table public.events add column if not exists type text;
 alter table public.events add column if not exists speaker text;
+alter table public.events add column if not exists badge text;
 
 -- Backfill events.type from legacy columns when they exist
 do $$
