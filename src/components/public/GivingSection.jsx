@@ -5,10 +5,10 @@ export default function GivingSection() {
     <section className="section section-dark" id="giving">
       <div className="site-container giving-layout">
         <div>
-          <p className="eyebrow">Persembahan</p>
+          {/*<p className="eyebrow">Giving</p>*/}
           <h2>Giving with Trust and Joy</h2>
           <p>
-            Persembahan Anda mendukung pelayanan ibadah, pemuridan, serta jangkauan misi gereja.
+            Ambil bagian dalam pelayanan melalui dukungan yang Anda berikan.
           </p>
           <div className="account-box">
             <p>{givingInfo.account}</p>

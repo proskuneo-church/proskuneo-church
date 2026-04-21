@@ -1,21 +1,42 @@
 import { churchMeta } from "../../data/siteContent";
 
+const quickLinks = [
+  { label: "Home", href: "#home" },
+  { label: "Devotional", href: "#devotional" },
+  { label: "Events", href: "#featured-events" },
+  { label: "Services", href: "#services" },
+  { label: "Sermons", href: "#sermons" },
+  { label: "Contact", href: "#contact" },
+];
+
 export default function PublicFooter() {
   return (
     <footer className="footer-main" id="contact">
       <div className="site-container footer-grid-main">
-        <div>
-          <h3>{churchMeta.name}</h3>
-          <p>Jl. Dharmahusada Indah Barat III-A No.153-155</p>
-          <p>Surabaya, Jawa Timur</p>
-          {/*<p>
-            WhatsApp: <a href={churchMeta.whatsappUrl}>{churchMeta.whatsappDisplay}</a>
-          </p>*/}
+        <div className="footer-column">
+          <h3 className="footer-title">Proskuneo Church</h3>
+          <p className="footer-text-primary">
+            Proskuneo Church is a community of faith where people grow in God and live out His purpose together.
+          </p>
+          <p className="footer-tagline">Faith • Community • Growth</p>
         </div>
 
-        <div>
-          <h4>Connect</h4>
-          <div className="social-wrap">
+        <div className="footer-column">
+          <h4 className="footer-heading">Quick Links</h4>
+          <ul className="footer-links-list">
+            {quickLinks.map((item) => (
+              <li key={item.label}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="footer-column">
+          <h4 className="footer-heading">Contact</h4>
+          <p className="footer-text-secondary">{churchMeta.address}</p>
+          {churchMeta.email ? <p className="footer-text-secondary">{churchMeta.email}</p> : null}
+          <div className="footer-socials">
             {churchMeta.socials.map((social) => (
               <a key={social.label} href={social.url} target="_blank" rel="noreferrer">
                 {social.label}
@@ -27,7 +48,7 @@ export default function PublicFooter() {
           </div>
         </div>
       </div>
-      <div className="site-container footer-copy">(c) {new Date().getFullYear()} {churchMeta.name}</div>
+      <div className="site-container footer-copy">© 2026 Proskuneo Church. All rights reserved.</div>
     </footer>
   );
 }

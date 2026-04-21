@@ -57,8 +57,8 @@ export default function UpcomingEventsCarouselSection() {
     <section className="section" id="upcoming-events">
       <div className="site-container">
         <SectionHeading
-          title="Upcoming Services Posters"
-          subtitle="Preview poster terbaru: desktop 9, tablet 6, mobile 3. Klik poster untuk lihat versi penuh."
+          title="Upcoming Services"
+          subtitle="Informasi ibadah yang akan datang."
         />
 
         {loading ? <LoadingBlock label="Loading upcoming posters..." /> : null}

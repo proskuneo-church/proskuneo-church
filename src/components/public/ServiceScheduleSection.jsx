@@ -6,8 +6,8 @@ export default function ServiceScheduleSection() {
     <section className="section section-alt" id="schedule">
       <div className="site-container">
         <SectionHeading
-          title="Jadwal Ibadah"
-          subtitle="Jadwal teratur dan jadwal khusus pelayanan Proskuneo Church."
+          title="Service Schedule"
+          subtitle="Jadwal ibadah rutin yang dapat diikuti setiap minggunya."
         />
 
         <div className="schedule-card-grid">

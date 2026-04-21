@@ -85,7 +85,7 @@ export default function FeaturedEventsSection() {
       <div className="site-container">
         <SectionHeading
           title="Featured Events"
-          subtitle="Highlight acara utama gereja dengan tampilan poster yang clean, modern, dan elegan."
+          subtitle="Acara utama gereja untuk membangun iman dan kebersamaan jemaat."
         />
 
         {loading ? <LoadingBlock label="Loading featured events..." /> : null}

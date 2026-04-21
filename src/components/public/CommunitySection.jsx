@@ -5,7 +5,7 @@ export default function CommunitySection() {
   return (
     <section className="section section-alt" id="community">
       <div className="site-container">
-        <SectionHeading title="Community" subtitle="Komunitas bertumbuh bersama dalam iman, doa, dan pelayanan." />
+        <SectionHeading title="Community" subtitle="Bertumbuh bersama dalam komunitas yang saling mendukung dan membangun." />
 
         <div className="community-clean-grid">
           {communityCategories.map((item) => (

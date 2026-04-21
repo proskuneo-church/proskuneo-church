@@ -5,7 +5,7 @@ export default function MemberServicesSection() {
   return (
     <section className="section" id="services">
       <div className="site-container">
-        <SectionHeading title="Pelayanan Jemaat" subtitle="Klik form resmi. Jika short-link form bermasalah, gunakan tombol WhatsApp admin." />
+        <SectionHeading title="Ministries" subtitle="Berbagai bidang pelayanan sebagai wadah untuk melayani dan bertumbuh." />
 
         <div className="service-clean-grid">
           {memberServices.map((item) => (

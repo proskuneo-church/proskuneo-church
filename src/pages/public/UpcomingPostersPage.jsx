@@ -41,8 +41,10 @@ export default function UpcomingPostersPage() {
             title="Semua Poster Ibadah"
             subtitle="Daftar lengkap poster/banner upcoming service. Klik poster untuk preview fullscreen."
           />
-          <Link to="/#upcoming-events" className="button-secondary upcoming-back-home">
-            Kembali ke Home
+        </div>
+        <div className="upcoming-back-wrap">
+          <Link to="/#upcoming-events" className="upcoming-back-home-button">
+            Back to Home
           </Link>
         </div>
 

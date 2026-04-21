@@ -7,7 +7,7 @@
   heroVideo: "https://videos.pexels.com/video-files/3000175/3000175-uhd_2560_1440_25fps.mp4",
   heroPoster:
     "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80",
-  livestreamUrl: "https://www.youtube.com/@jkiproskuneo_sby",
+  livestreamUrl: "https://www.youtube.com/@jkiproskuneosby",
   address: "Jl. Dharmahusada Indah Barat III-A No. 153-155, Surabaya, Jawa Timur",
   whatsappDisplay: "+62 822-2989-1020",
   whatsappUrl: "https://wa.me/6282229891020",
@@ -19,9 +19,8 @@
   navigation: [
     { label: "Home", href: "#home" },
     { label: "Schedule", href: "#schedule" },
-    { label: "Community", href: "#community" },
-    { label: "Pelayanan Jemaat", href: "#services" },
-    { label: "Arsip Khotbah", href: "#sermons" },
+    { label: "Ministries", href: "#services" },
+    { label: "Sermon Archive", href: "#sermons" },
     { label: "Giving", href: "#giving" },
     { label: "Contact", href: "#contact" },
   ],
@@ -29,7 +28,7 @@
 
 export const churchProfile = {
   vision:
-    "Mewujudkan jemaat yang berwawasan Kerajaan Allah.\nBerkarakter Kristus.",
+    "-Mewujudkan jemaat yang berwawasan Kerajaan Allah.\n-Berkarakter Kristus.",
   mission:
     "Membangun Pujian, Penyembahan Doa, Pengajaran Firman Tuhan.",
   pastor: {

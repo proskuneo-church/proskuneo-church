@@ -38,7 +38,7 @@ export default function DevotionalPreviewSection() {
       <div className="site-container">
         <SectionHeading
           title="Devotional"
-          subtitle="Renungan bulanan dan harian tanpa elemen gambar, fokus penuh pada isi bacaan."
+          subtitle="Renungan firman Tuhan untuk menguatkan iman setiap hari."
         />
 
         {loading ? <LoadingBlock label="Loading devotionals..." /> : null}

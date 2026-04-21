@@ -11,7 +11,7 @@ export default function ChurchProfileSection() {
   return (
     <section className="section" id="profile">
       <div className="site-container">
-        <SectionHeading title="Tentang Gereja" subtitle="Visi dan misi yang bergerak bersama hati gembala untuk jemaat." />
+        <SectionHeading title="About Us" subtitle="Mengenal visi, misi, dan hati pelayanan gereja." />
 
         <div className="profile-split">
           <article>

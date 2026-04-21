@@ -28,7 +28,7 @@ export default function SermonArchiveSection() {
   return (
     <section className="section" id="sermons">
       <div className="site-container">
-        <SectionHeading title="Arsip Khotbah" subtitle="Koleksi khotbah terbaru tampil lebih dulu, dengan pemutar audio langsung di halaman." />
+        <SectionHeading title="Sermon Archive" subtitle="Kumpulan khotbah untuk didengarkan kembali kapan saja." />
 
         {loading ? <LoadingBlock label="Loading sermons..." /> : null}
         {error ? <MessageBlock type="error" title="Sermons unavailable" message={error} /> : null}
