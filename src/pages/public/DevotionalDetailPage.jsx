@@ -1,15 +1,44 @@
-﻿import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { fetchDevotionalBySlug } from "../../lib/cmsApi";
-import { formatDateDisplay } from "../../utils/formatters";
+import { buildSeoDescription, getAbsoluteUrl } from "../../lib/seo";
+import { excerpt, formatDateDisplay } from "../../utils/formatters";
 import LoadingBlock from "../../components/common/LoadingBlock";
 import MessageBlock from "../../components/common/MessageBlock";
+import SeoHead from "../../components/common/SeoHead";
 
 export default function DevotionalDetailPage({ type }) {
   const { slug } = useParams();
+  const location = useLocation();
   const [devotional, setDevotional] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const pageTypeLabel = type === "monthly" ? "Renungan Bulanan" : "Renungan Harian";
+  const seoTitle = devotional
+    ? `${devotional.title} | ${pageTypeLabel} - JKI Proskuneo`
+    : `${pageTypeLabel} | JKI Proskuneo`;
+  const seoDescription = devotional
+    ? buildSeoDescription(excerpt(devotional.content, 34), `Baca ${pageTypeLabel.toLowerCase()} JKI Proskuneo.`)
+    : `Baca ${pageTypeLabel.toLowerCase()} dari Proskuneo Church Surabaya.`;
+
+  const articleSchema = devotional
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: devotional.title,
+        description: buildSeoDescription(excerpt(devotional.content, 34), devotional.verse || ""),
+        author: {
+          "@type": "Organization",
+          name: "Proskuneo Church",
+        },
+        datePublished: devotional.created_at,
+        dateModified: devotional.created_at,
+        mainEntityOfPage: getAbsoluteUrl(location.pathname),
+        image: getAbsoluteUrl("/images/hero.jpg"),
+        inLanguage: "id-ID",
+      }
+    : null;
 
   useEffect(() => {
     const load = async () => {
@@ -29,6 +58,20 @@ export default function DevotionalDetailPage({ type }) {
 
   return (
     <div className="devotional-detail-page">
+      <SeoHead
+        title={seoTitle}
+        description={seoDescription}
+        path={location.pathname}
+        image="/images/hero.jpg"
+        keywords={[
+          pageTypeLabel,
+          "renungan Kristen Surabaya",
+          "renungan JKI Proskuneo",
+          devotional?.verse || "",
+        ].filter(Boolean)}
+        jsonLd={articleSchema ? [articleSchema] : []}
+      />
+
       <article className="reading-layout">
         {loading ? <LoadingBlock label="Loading devotional..." /> : null}
         {error ? <MessageBlock type="error" title="Unable to open devotional" message={error} /> : null}
@@ -39,7 +82,7 @@ export default function DevotionalDetailPage({ type }) {
 
         {!loading && devotional ? (
           <>
-            <p className="eyebrow">{type === "monthly" ? "Renungan Bulanan" : "Renungan Harian"}</p>
+            <p className="eyebrow">{pageTypeLabel}</p>
             <h1>{devotional.title}</h1>
             {type === "monthly" ? <p className="author">By {devotional.author || "Admin"}</p> : null}
             <p className="verse">{devotional.verse}</p>

@@ -1,6 +1,7 @@
-﻿import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
 import { useAuth } from "../../context/AuthContext";
+import SeoHead from "../common/SeoHead";
 
 const adminMenu = [
   { label: "Dashboard", to: "/admin" },
@@ -25,6 +26,14 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-shell">
+      <SeoHead
+        title="Admin CMS | Proskuneo Church"
+        description="Area admin CMS Proskuneo Church."
+        path="/admin"
+        robots="noindex,nofollow"
+        image="/images/logogambar.png"
+      />
+
       <aside className="admin-sidebar">
         <a href="/" className="admin-brand">
           <strong>Proskuneo CMS</strong>

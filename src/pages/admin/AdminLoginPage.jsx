@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabaseClient";
 import MessageBlock from "../../components/common/MessageBlock";
+import SeoHead from "../../components/common/SeoHead";
 
 export default function AdminLoginPage() {
   const { user, isSupabaseConfigured } = useAuth();
@@ -46,6 +47,13 @@ export default function AdminLoginPage() {
 
   return (
     <div className="admin-login-page">
+      <SeoHead
+        title="Admin Login | Proskuneo Church"
+        description="Halaman login admin untuk pengelolaan konten Proskuneo Church."
+        path="/admin/login"
+        robots="noindex,nofollow"
+        image="/images/logogambar.png"
+      />
       <form className="admin-login-card" onSubmit={handleSubmit}>
         <p className="eyebrow">Admin Panel</p>
         <h1>Sign In</h1>

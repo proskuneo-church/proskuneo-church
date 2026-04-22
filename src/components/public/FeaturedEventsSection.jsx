@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchEvents } from "../../lib/cmsApi";
+import { getAbsoluteUrl } from "../../lib/seo";
 import SectionHeading from "../common/SectionHeading";
 import LoadingBlock from "../common/LoadingBlock";
 import MessageBlock from "../common/MessageBlock";
@@ -59,6 +60,36 @@ export default function FeaturedEventsSection() {
   const visibleEvents = useMemo(
     () => events.filter((event) => Boolean(event?.image_url)),
     [events],
+  );
+  const eventSchema = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: visibleEvents.slice(0, 12).map((event, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Event",
+          name: event.title || `Featured Event ${index + 1}`,
+          image: event.image_url,
+          eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+          eventStatus: "https://schema.org/EventScheduled",
+          startDate: event.date && event.time ? `${event.date}T${event.time}` : event.date,
+          url: getAbsoluteUrl("/#featured-events"),
+          location: {
+            "@type": "Place",
+            name: "Proskuneo Church",
+            address: "Surabaya, Jawa Timur, Indonesia",
+          },
+          organizer: {
+            "@type": "Organization",
+            name: "Proskuneo Church",
+            url: getAbsoluteUrl("/"),
+          },
+        },
+      })),
+    }),
+    [visibleEvents],
   );
 
   useEffect(() => {
@@ -157,6 +188,10 @@ export default function FeaturedEventsSection() {
             onClick={(event) => event.stopPropagation()}
           />
         </div>
+      ) : null}
+
+      {!loading && !error && visibleEvents.length > 0 ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(eventSchema) }} />
       ) : null}
     </section>
   );

@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { fetchEvents } from "../../lib/cmsApi";
+import { getAbsoluteUrl } from "../../lib/seo";
+import SeoHead from "../../components/common/SeoHead";
 import SectionHeading from "../../components/common/SectionHeading";
 import LoadingBlock from "../../components/common/LoadingBlock";
 import MessageBlock from "../../components/common/MessageBlock";
 
 export default function UpcomingPostersPage() {
+  const location = useLocation();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -32,9 +35,46 @@ export default function UpcomingPostersPage() {
   }, []);
 
   const posters = useMemo(() => events.filter((item) => Boolean(item?.image_url)), [events]);
+  const collectionSchema = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Upcoming Service Posters - Proskuneo Church",
+      description: "Poster ibadah gereja terbaru Proskuneo Church Surabaya.",
+      url: getAbsoluteUrl(location.pathname),
+      inLanguage: "id-ID",
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: posters.slice(0, 24).map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "ImageObject",
+            name: item.title || `Poster Ibadah ${index + 1}`,
+            contentUrl: item.image_url,
+          },
+        })),
+      },
+    }),
+    [location.pathname, posters],
+  );
 
   return (
     <main className="section">
+      <SeoHead
+        title="Poster Ibadah Gereja Surabaya | JKI Proskuneo"
+        description="Lihat semua poster ibadah terbaru Proskuneo Church, gereja JKI Surabaya untuk informasi jadwal dan pelayanan."
+        path={location.pathname}
+        image="/images/hero.jpg"
+        keywords={[
+          "poster ibadah gereja surabaya",
+          "event JKI Proskuneo",
+          "jadwal ibadah Proskuneo",
+          "gereja jki surabaya",
+        ]}
+        jsonLd={[collectionSchema]}
+      />
+
       <div className="site-container">
         <div className="upcoming-page-head">
           <SectionHeading
